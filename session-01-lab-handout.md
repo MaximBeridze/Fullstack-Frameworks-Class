@@ -180,7 +180,7 @@ or you can use this command in your terminal
 
 **curl** shows exactly what the server sends, before any JavaScript runs.
 
-`curl -s http://localhost:3000/about | grep -o '<title>[^<]*</title>' `
+`curl -s http://localhost:3000/about | grep -o '<title>[^<]*</title>' ` \
 `curl -s http://localhost:3000/about | grep -o '<meta [^>]*' `
 
 Then open `app/layout.tsx` and change the default metadata:
