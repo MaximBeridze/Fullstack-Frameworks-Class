@@ -67,3 +67,26 @@ Which version would you choose for a public movie catalogue that changes once a 
 
     I’d choose static /movies and rebuild when the catalogue changes. Everyone sees the same list, the titles are already in the HTML, and visitors don’t have to wait for a fresh query on every visit.
 
+------------------------
+
+**Lab 3**
+
+`NavLink` uses `usePathname`, a hook that only works in Client Components. Yet the page source of `/movies/2` already contains `aria-current="true"` on the Movies link. How is this possible?
+
+    Next.js renders Client Components into the initial HTML too. When it prerenders /movies/2, NavLink sees that the path starts with /movies/ and marks Movies as the active section. The browser can then update the link as you navigate.
+
+Why does `generateStaticParams` return `String(movie.id)` and not `movie.id`? And why does `/movies/42` give a 404 in Part C without running the code of the page?
+
+    URL parameters are strings, but the IDs in our JSON are numbers. String(movie.id) gives Next.js the format it expects. Since dynamicParams is false and 42 wasn’t in the build’s list, Next.js returns a 404 without running the movie detail page.
+
+In Part D, why is the note kept between `/movies` and `/movies/2`, and lost when you go through `/about`?
+
+    /movies and /movies/2 share the same Movies layout. When I navigate between them using the app links, only the page inside the layout changes, so the input keeps its text. Going to /about leaves the Movies layout; returning creates a fresh input
+
+In Part E, step 4, where is the real message of the error, and why does Next.js not send it to the browser?
+
+    Movie database unavailable is in the server terminal. The browser gets a generic message and an error identifier so server details aren’t exposed. The identifier can help match the browser error to the server log.
+
+Under `npm run dev`, "Loading the movies..." appears when you open `/movies/2`. Under `npm start` it does not, but it still appears on `/movies`. Why?
+
+    In dev, /movies/2 runs the simulated query when I open it, so there’s a wait. In production, the detail page is already built, so that query has already happened. The /movies list still uses force-dynamic, so it runs the query on each request and can still show the loading message.
