@@ -90,3 +90,16 @@ In Part E, step 4, where is the real message of the error, and why does Next.js 
 Under `npm run dev`, "Loading the movies..." appears when you open `/movies/2`. Under `npm start` it does not, but it still appears on `/movies`. Why?
 
     In dev, /movies/2 runs the simulated query when I open it, so there’s a wait. In production, the detail page is already built, so that query has already happened. The /movies list still uses force-dynamic, so it runs the query on each request and can still show the loading message.
+
+------------------------
+
+**Lab 4, part 2**
+
+### Part E: Rendering predictions
+
+| Page | Fetch option | Expected build output |
+|---|---|---|
+| /movies | `next: { revalidate: 10 }` | ○ Static with a 10s revalidation interval (ISR): generated during the build, then eligible for background regeneration after 10 seconds when requested. |
+| /movies/[id] | `cache: "force-cache"` | ● SSG for each movie returned by `generateStaticParams`: detail pages are generated during the build and use cached API responses. |
+
+These predictions assume the Part E changes are applied: remove `force-dynamic` from the list page, and use `force-cache` in the detail page's data requests.
